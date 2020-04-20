@@ -18,8 +18,8 @@ objects:
     resources: {}
     runPolicy: Serial
     source:
+      contextDir: /pilot_apps/redis
       git:
-        ref: redis
         uri: ${GIT_REPO}
       type: Git
     strategy:
