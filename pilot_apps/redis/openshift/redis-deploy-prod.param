@@ -1,0 +1,5 @@
+#
+# Environment-specific settings.
+#
+
+REDIS_IMAGE_TAG=prod

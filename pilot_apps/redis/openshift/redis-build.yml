@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Template
+objects:
+
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      app: ${REDIS_IMAGE_NAME}-build
+      name: redis
+    name: ${REDIS_IMAGE_NAME}-build
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${REDIS_IMAGE_NAME}:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        ref: redis
+        uri: ${GIT_REPO}
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: redis:3.2
+          namespace: openshift
+      type: Docker
+    triggers: []
+
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: ${REDIS_IMAGE_NAME}
+      name: ${REDIS_IMAGE_NAME}
+    name: ${REDIS_IMAGE_NAME}
+  spec: {}
+
+parameters:
+- name: GIT_REPO
+  description: Name of the git repo.
+  required: true
+  value: https://github.com/WalterMoar/SBC_DivApps
+- name: REDIS_IMAGE_NAME
+  description: Name of the image to build.
+  required: true
+  value: redis-ha
