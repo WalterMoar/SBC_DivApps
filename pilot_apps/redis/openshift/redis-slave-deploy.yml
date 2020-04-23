@@ -41,8 +41,14 @@ objects:
               name: data
           ports:
             - containerPort: 6379
-          resources: {}
-        dnsPolicy: ClusterFirst
+          resources:
+            limits:
+              cpu: ${POD_CPU_LIMIT}
+              memory: ${POD_MEMORY_LIMIT}
+            requests:
+              cpu: ${POD_CPU_REQUEST}
+              memory: ${POD_MEMORY_REQUEST}
+          dnsPolicy: ClusterFirst
         restartPolicy: Always
         securityContext: {}
         terminationGracePeriodSeconds: 30
@@ -77,6 +83,22 @@ objects:
       app: redis
 
 parameters:
+- name: POD_CPU_LIMIT
+  description: Maximum CPU for the pod.
+  required: true
+  value: 100m
+- name: POD_CPU_REQUEST
+  description: Minimum CPU for the pod.
+  required: true
+  value: 10m
+- name: POD_MEMORY_LIMIT
+  description: Maximum memory for the pod.
+  required: true
+  value: 256Mi
+- name: POD_MEMORY_REQUEST
+  description: Minimum memory for the pod.
+  required: true
+  value: 32Mi
 - name: REDIS_DATA_MAX_AGE
   description: Maximal age of slave data directories in days.
   required: true

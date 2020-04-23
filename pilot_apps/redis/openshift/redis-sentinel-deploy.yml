@@ -48,7 +48,13 @@ objects:
                   fieldPath: metadata.namespace
           ports:
             - containerPort: 26379
-          resources: {}
+          resources:
+            limits:
+              cpu: ${POD_CPU_LIMIT}
+              memory: ${POD_MEMORY_LIMIT}
+            requests:
+              cpu: ${POD_CPU_REQUEST}
+              memory: ${POD_MEMORY_REQUEST}
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         securityContext: {}
@@ -67,6 +73,22 @@ objects:
       type: ImageChange
 
 parameters:
+- name: POD_CPU_LIMIT
+  description: Maximum CPU for the pod.
+  required: true
+  value: 100m
+- name: POD_CPU_REQUEST
+  description: Minimum CPU for the pod.
+  required: true
+  value: 10m
+- name: POD_MEMORY_LIMIT
+  description: Maximum memory for the pod.
+  required: true
+  value: 256Mi
+- name: POD_MEMORY_REQUEST
+  description: Minimum memory for the pod.
+  required: true
+  value: 32Mi
 - name: REDIS_DOWN_AFTER_MILLIS
   description: The time in milliseconds an instance should not be reachable for a Sentinel starting to think it is down.
   required: false
