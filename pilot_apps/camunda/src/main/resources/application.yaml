@@ -99,10 +99,15 @@ security:
   headers:
     hsts: domain
 
+
 logging:
   level:
     root: ${APP_ROOT_LOG_FLAG}
-    com.zaxxer: ${HIKARI_LOG_FLAG}
+    org.springframework.security: ${APP_ROOT_LOG_FLAG}
+    org.springframework.web: ${APP_ROOT_LOG_FLAG}
+    org.springframework.jdbc: ${APP_ROOT_LOG_FLAG}
+    org.camunda.bpm.extension: ${APP_ROOT_LOG_FLAG}
+
 
 plugin.identity.keycloak.rest:
   userNameClaim: preferred_username
